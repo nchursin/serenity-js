@@ -34,7 +34,7 @@
     "site": "esdoc -c .esdoc.js"
   },
   "dependencies": {
-    "@types/chai": "^4.2.21",
+    "@types/chai": "^4.2.22",
     "cuid": "^2.1.8",
     "diff": "^5.0.0",
     "error-stack-parser": "^2.0.6",
