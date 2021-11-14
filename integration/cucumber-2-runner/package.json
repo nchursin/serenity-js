@@ -33,7 +33,7 @@
   },
   "engines": {
     "node": "^12 || ^14 || ^16",
-    "npm": "^6 || ^7"
+    "npm": "^6 || ^7 || ^8"
   },
   "dependencies": {
     "@integration/testing-tools": "2.0.0",
@@ -43,9 +43,9 @@
     "cucumber": "2.3.1"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.21",
+    "@types/chai": "^4.2.22",
     "@types/cucumber": "2.1.0",
     "ts-node": "^10.2.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.3"
   }
 }
