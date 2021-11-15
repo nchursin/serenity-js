@@ -1,4 +1,4 @@
-import "mocha";
+import 'mocha';
 
 import { expect } from '@integration/testing-tools';
 import { Actor, actorCalled, serenity } from '@serenity-js/core';
@@ -6,9 +6,9 @@ import { TestRunFinishes } from '@serenity-js/core/lib/events';
 import { chromium, ElementHandle, Page } from 'playwright';
 import { createSandbox, } from 'sinon';
 
-import { by } from '../../../../src/screenplay';
-import { BrowseTheWeb } from '../../../../src/screenplay/abilities';
-import { Close } from '../../../../src/screenplay/interactions';
+import { by } from '../../../../src';
+import { BrowseTheWeb } from '../../../../src';
+import { Close } from '../../../../src';
 import { TargetElement } from '../../../../src/screenplay/questions/targets/TargetElement';
 
 describe('TargetElement Question', () => {
@@ -22,11 +22,11 @@ describe('TargetElement Question', () => {
         actor = actorCalled('Actor').whoCan(browseTheWeb);
         page = await (actor.abilityTo(BrowseTheWeb) as any).page();
         page.setContent(`
-        <html>
+        <html lang="">
             <input type="text" name="example" id="example" value="random text" />
-            <div id="grandparent" name="grandparent">
-                <div id="parent" name="parent">
-                    <div id="child" name="child">
+            <div id="grandparent">
+                <div id="parent">
+                    <div id="child">
                     </div>
                 </div>
             </div>
@@ -129,7 +129,7 @@ describe('TargetElement Question', () => {
     // // I don't remember what's this for, but its needed... Failures were in the samples
     it('responds with answer with constructor even if selected handle == null', async () => {
         const element = await actor.answer(
-            TargetElement.located(by.css('not exsting element selector'))
+            TargetElement.located(by.css('not existing element selector'))
         );
         expect(element.constructor, 'Constructor does not exist').to.exist;
     });

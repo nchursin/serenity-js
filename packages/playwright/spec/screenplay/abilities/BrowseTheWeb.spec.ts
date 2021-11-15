@@ -1,15 +1,14 @@
-import "mocha";
+import 'mocha';
 
-import {expect} from "@integration/testing-tools";
-import {Browser, BrowserContext, BrowserType, chromium, Page} from "playwright";
-import {createSandbox} from "sinon";
+import { expect } from '@integration/testing-tools';
+import { Browser, BrowserType, chromium, Page } from 'playwright';
+import { createSandbox } from 'sinon';
 
-import {BrowseTheWeb} from "../../../src/screenplay/abilities";
+import { BrowseTheWeb } from '../../../src';
 
-describe("BrowseTheWeb ability", () => {
+describe('BrowseTheWeb ability', () => {
     const sandbox = createSandbox();
     let page: Page;
-    let browserContext: BrowserContext;
     let browser: Browser;
     let browserType: BrowserType;
     let ability: BrowseTheWeb;
@@ -36,13 +35,13 @@ describe("BrowseTheWeb ability", () => {
         expect(browser.isConnected()).to.be.false;
     });
 
-    it("stores browser", async () => {
+    it('stores browser', async () => {
         expect((ability as any).browserType).to.be.equal(browserType);
     });
 
-    it("opens page", async () => {
-        const url = "https://www.google.com/";
-        const options = {referer: "", waitUntil: "load" as const};
+    it('opens page', async () => {
+        const url = 'https://www.google.com/';
+        const options = {referer: '', waitUntil: 'load' as const};
 
         await ability.open(url, options);
 
@@ -51,34 +50,34 @@ describe("BrowseTheWeb ability", () => {
         expect(page.url()).to.be.equal(url);
     });
 
-    it("find specific element", async () => {
-        await page.setContent("<input id='test-input'></input>");
-        const selector = "input";
+    it('find specific element', async () => {
+        await page.setContent("<input id='test-input'/>");
+        const selector = 'input';
         const expected = await page.$(selector);
 
         const actual = await ability.$(selector);
 
-        expect(await actual.getAttribute("id")).to.be.deep.equal(await expected.getAttribute("id"));
+        expect(await actual.getAttribute('id')).to.be.deep.equal(await expected.getAttribute('id'));
     });
 
-    it("find several elements", async () => {
+    it('find several elements', async () => {
         await page.setContent("<ul id='test-ul'>" +
             "<li id='1'></li>" +
             "<li id='2'></li>" +
             "<li id='3'></li>" +
-            "</ul>");
-        const selector = "li";
+            '</ul>');
+        const selector = 'li';
         const expected = await page.$$(selector);
 
         const actual = await ability.$$(selector);
 
         expect(actual.length).to.be.deep.equal(expected.length);
-        const expectedIds = await Promise.all(expected.map((eh) => eh.getAttribute("id")));
-        const actualIds = await Promise.all(actual.map((eh) => eh.getAttribute("id")));
+        const expectedIds = await Promise.all(expected.map((eh) => eh.getAttribute('id')));
+        const actualIds = await Promise.all(actual.map((eh) => eh.getAttribute('id')));
         expect(actualIds).to.be.deep.equal(expectedIds);
     });
 
-    it("clicks on selector", async () => {
+    it('clicks on selector', async () => {
         await page.setContent(`
             <button
                     id="to-hide"
@@ -88,7 +87,7 @@ describe("BrowseTheWeb ability", () => {
                 Click me!
             </button>
         `);
-        const selector = "id=to-hide";
+        const selector = 'id=to-hide';
         let element = await page.$(selector);
         await expect(element.isVisible()).to.eventually.be.equal(true);
 
@@ -98,7 +97,7 @@ describe("BrowseTheWeb ability", () => {
         await expect(element.isVisible()).to.eventually.be.equal(false);
     });
 
-    it("double clicks on selector", async () => {
+    it('double clicks on selector', async () => {
         await page.setContent(`
             <button
                     id="to-hide"
@@ -108,7 +107,7 @@ describe("BrowseTheWeb ability", () => {
                 Click me!
             </button>
         `);
-        const selector = "id=to-hide";
+        const selector = 'id=to-hide';
         let element = await page.$(selector);
         await expect(element.isVisible()).to.eventually.be.equal(true);
 
@@ -118,7 +117,7 @@ describe("BrowseTheWeb ability", () => {
         await expect(element.isVisible()).to.eventually.be.equal(false);
     });
 
-    it("hovers on selector", async () => {
+    it('hovers on selector', async () => {
         await page.setContent(`
             <button
                     id="to-hover"
@@ -129,8 +128,8 @@ describe("BrowseTheWeb ability", () => {
             </button>
             <div id="to-hide">I'm hiding</div>
         `);
-        const selector = "id=to-hover";
-        const selectorToHide = "id=to-hide";
+        const selector = 'id=to-hover';
+        const selectorToHide = 'id=to-hide';
         let element = await page.$(selectorToHide);
         await expect(element.isVisible()).to.eventually.be.equal(true);
 
@@ -140,11 +139,11 @@ describe("BrowseTheWeb ability", () => {
         await expect(element.isVisible()).to.eventually.be.equal(false);
     });
 
-    it("executes function", async () => {
-        const evalStub = sandbox.stub(page, "evaluate");
+    it('executes function', async () => {
+        const evalStub = sandbox.stub(page, 'evaluate');
 
         const script = sandbox.stub();
-        const args = [1, "a", {a: 1}];
+        const args = [1, 'a', {a: 1}];
 
         await ability.evaluate(script, args);
 
@@ -152,9 +151,9 @@ describe("BrowseTheWeb ability", () => {
         expect(evalStub).to.have.been.calledWith(script, args);
     });
 
-    it("takes screenshot", async () => {
-        const expectedBuffer = Buffer.from("result");
-        const screenshot = sandbox.stub(page, "screenshot").resolves(expectedBuffer);
+    it('takes screenshot', async () => {
+        const expectedBuffer = Buffer.from('result');
+        const screenshot = sandbox.stub(page, 'screenshot').resolves(expectedBuffer);
 
         const actualBuffer = await ability.takeScreenshot();
 
@@ -162,37 +161,37 @@ describe("BrowseTheWeb ability", () => {
         expect(screenshot).to.have.been.called;
     });
 
-    it("takes screenshot with params", async () => {
-        const screenshot = sandbox.stub(page, "screenshot");
+    it('takes screenshot with params', async () => {
+        const screenshot = sandbox.stub(page, 'screenshot');
 
         // see playwright docs for more information about options
-        const options = {fullPage: true, path: "/path/to/file"};
+        const options = {fullPage: true, path: '/path/to/file'};
         await ability.takeScreenshot(options);
 
         expect(screenshot).to.have.been.called;
         expect(screenshot).to.have.been.calledWith(options);
     });
 
-    it("returns page title", async () => {
-        const title = "title";
-        sandbox.stub(page, "title").resolves(title);
+    it('returns page title', async () => {
+        const title = 'title';
+        sandbox.stub(page, 'title').resolves(title);
 
         const result = await ability.getPageTitle();
 
         expect(result).to.be.equal(title);
     });
 
-    it("returns current URL", async () => {
-        const url = "url";
-        sandbox.stub(page, "url").resolves(url);
+    it('returns current URL', async () => {
+        const url = 'url';
+        sandbox.stub(page, 'url').resolves(url);
 
         const result = await ability.getCurrentUrl();
 
         expect(result).to.be.equal(url);
     });
 
-    it("waits for timeout", async () => {
-        const waitForTimeout = sandbox.stub(page, "waitForTimeout");
+    it('waits for timeout', async () => {
+        const waitForTimeout = sandbox.stub(page, 'waitForTimeout');
 
         await ability.waitForTimeout(1000);
 
@@ -200,13 +199,13 @@ describe("BrowseTheWeb ability", () => {
         expect(waitForTimeout).to.have.been.calledWith(1000);
     });
 
-    it("waits for Event"); // not implemented
-    it("waits for Function"); // not implemented
-    it("waits for LoadState"); // not implemented
-    it("waits for Navigation"); // not implemented
-    it("waits for Request"); // not implemented
-    it("waits for Response"); // not implemented
-    it("waits for Selector"); // not implemented
-    it("waits for URL"); // not implemented
-    it("switch between tabs"); // not implemented
+    it('waits for Event'); // not implemented
+    it('waits for Function'); // not implemented
+    it('waits for LoadState'); // not implemented
+    it('waits for Navigation'); // not implemented
+    it('waits for Request'); // not implemented
+    it('waits for Response'); // not implemented
+    it('waits for Selector'); // not implemented
+    it('waits for URL'); // not implemented
+    it('switch between tabs'); // not implemented
 });

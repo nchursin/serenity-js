@@ -1,12 +1,12 @@
-import "mocha";
+import 'mocha';
 
 import { Ensure, equals } from '@serenity-js/assertions';
 import { actorCalled, serenity } from '@serenity-js/core';
 import { TestRunFinishes } from '@serenity-js/core/lib/events';
 import { chromium, Page } from 'playwright';
 
-import { BrowseTheWeb, Close, Press, Value } from '../../../src/screenplay';
-import { by, Target } from '../../../src/screenplay/questions/targets';
+import { BrowseTheWeb, Close, Press, Value } from '../../../src';
+import { by, Target } from '../../../src';
 
 const { $ } = Target;
 
@@ -16,7 +16,7 @@ describe("'Press' interaction", () => {
     beforeEach(async () => {
         const page: Page = await (actor.abilityTo(BrowseTheWeb) as any).page();
         page.setContent(`
-        <html>
+        <html lang="en-GB">
             <input type="text" name="example" id="example" />
         </html>`);
     });

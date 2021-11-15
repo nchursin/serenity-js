@@ -1,6 +1,6 @@
 import { Ability, LogicError, UsesAbilities } from '@serenity-js/core';
 import { Browser, BrowserContext, BrowserType, ElementHandle, Frame, LaunchOptions, Mouse, Page, Response } from 'playwright';
-import { PageFunction } from 'playwright/types/structs';
+import { PageFunction } from 'playwright-core/types/structs';
 
 import { Stack } from '../../utils';
 import { NavigateOptions } from '../interactions';

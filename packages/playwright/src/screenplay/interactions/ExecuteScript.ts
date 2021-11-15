@@ -4,7 +4,7 @@ import {
     LogicError,
     UsesAbilities,
 } from '@serenity-js/core';
-import { PageFunction } from 'playwright/types/structs';
+import { PageFunction } from 'playwright-core/types/structs';
 
 import { UnsupportedOperationError } from '../../errors';
 import { BrowseTheWeb } from '../abilities';
