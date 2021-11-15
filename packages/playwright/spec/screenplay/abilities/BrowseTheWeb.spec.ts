@@ -4,7 +4,7 @@ import { expect } from '@integration/testing-tools';
 import { Browser, BrowserType, chromium, Page } from 'playwright';
 import { createSandbox } from 'sinon';
 
-import {BrowseTheWeb } from '../../../src/screenplay/abilities';
+import { BrowseTheWeb } from '../../../src';
 
 describe('BrowseTheWeb ability', () => {
     const sandbox = createSandbox();
@@ -51,7 +51,7 @@ describe('BrowseTheWeb ability', () => {
     });
 
     it('find specific element', async () => {
-        await page.setContent("<input id='test-input'></input>");
+        await page.setContent("<input id='test-input'/>");
         const selector = 'input';
         const expected = await page.$(selector);
 

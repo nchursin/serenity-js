@@ -5,8 +5,8 @@ import { actorCalled, serenity } from '@serenity-js/core';
 import { TestRunFinishes } from '@serenity-js/core/lib/events';
 import { chromium, Page } from 'playwright';
 
-import { isVisible } from '../../../src/expectations';
-import { BrowseTheWeb, by, Click, Close, Target } from '../../../src/screenplay';
+import { isVisible } from '../../../src';
+import { BrowseTheWeb, by, Click, Close, Target } from '../../../src';
 
 describe("'Click' interaction", () => {
     const actor = actorCalled('Mike').whoCan(BrowseTheWeb.using(chromium));
@@ -14,7 +14,7 @@ describe("'Click' interaction", () => {
     beforeEach(async () => {
         const page: Page = await (actor.abilityTo(BrowseTheWeb) as any).page();
         page.setContent(`
-        <html>
+        <html lang="">
             <button
                     id="to-hide"
                     onclick="
