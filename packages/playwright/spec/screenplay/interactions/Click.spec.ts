@@ -1,4 +1,4 @@
-import "mocha";
+import 'mocha';
 
 import { Ensure, not } from '@serenity-js/assertions';
 import { actorCalled, serenity } from '@serenity-js/core';

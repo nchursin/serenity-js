@@ -1,4 +1,4 @@
-import "mocha";
+import 'mocha';
 
 import { expect } from '@integration/testing-tools';
 import { Actor, actorCalled, serenity } from '@serenity-js/core';
